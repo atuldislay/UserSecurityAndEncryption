@@ -34,8 +34,15 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="EntityFramework">
+      <HintPath>..\packages\EntityFramework.5.0.0\lib\net45\EntityFramework.dll</HintPath>
+    </Reference>
     <Reference Include="System" />
+    <Reference Include="System.ComponentModel.DataAnnotations" />
     <Reference Include="System.Data" />
+    <Reference Include="System.Data.Entity" />
+    <Reference Include="System.Runtime.Serialization" />
+    <Reference Include="System.Security" />
     <Reference Include="System.Xml" />
     <Reference Include="Microsoft.CSharp" />
     <Reference Include="System.Core" />
@@ -61,8 +68,29 @@
       <DependentUpon>App.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="BAL\UserManager.cs" />
     <Compile Include="EncryptionLayer\EncryptionManager.cs" />
     <Compile Include="EncryptionLayer\SHA1Encryptor.cs" />
+    <Compile Include="DAL\T_User.cs">
+      <DependentUpon>User.tt</DependentUpon>
+    </Compile>
+    <Compile Include="DAL\User.Context.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>User.Context.tt</DependentUpon>
+    </Compile>
+    <Compile Include="DAL\User.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>User.tt</DependentUpon>
+    </Compile>
+    <Compile Include="DAL\User.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>User.edmx</DependentUpon>
+    </Compile>
+    <Compile Include="ViewModels\DashBoardViewModel.cs" />
+    <Compile Include="ViewModels\ViewModelBase.cs" />
     <Compile Include="Views\DashBoardView.xaml.cs">
       <DependentUpon>DashBoardView.xaml</DependentUpon>
       <SubType>Code</SubType>
@@ -86,23 +114,41 @@
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
     </EmbeddedResource>
+    <None Include="packages.config" />
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>
       <LastGenOutput>Settings.Designer.cs</LastGenOutput>
     </None>
     <AppDesigner Include="Properties\" />
+    <EntityDeploy Include="DAL\User.edmx">
+      <Generator>EntityModelCodeGenerator</Generator>
+      <LastGenOutput>User.Designer.cs</LastGenOutput>
+    </EntityDeploy>
+    <None Include="DAL\User.Context.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <DependentUpon>User.edmx</DependentUpon>
+      <LastGenOutput>User.Context.cs</LastGenOutput>
+    </None>
+    <None Include="DAL\User.edmx.diagram">
+      <DependentUpon>User.edmx</DependentUpon>
+    </None>
+    <None Include="DAL\User.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <DependentUpon>User.edmx</DependentUpon>
+      <LastGenOutput>User.cs</LastGenOutput>
+    </None>
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
   </ItemGroup>
   <ItemGroup>
-    <Folder Include="BAL\" />
-    <Folder Include="DAL\" />
     <Folder Include="Models\" />
-    <Folder Include="ViewModels\" />
   </ItemGroup>
   <ItemGroup>
     <Resource Include="Resources\icon.jpg" />
+  </ItemGroup>
+  <ItemGroup>
+    <Service Include="{508349B6-6B84-4DF5-91F0-309BEEBAD82D}" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

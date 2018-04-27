@@ -2,16 +2,18 @@
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         Icon="/Resources/icon.jpg"
-        Title="Add/Update Users" Height="300" Width="500" MaxWidth="500" MinWidth="500" MaxHeight="300" MinHeight="300">
+        Title="Add/Update Users" Height="300" Width="500" MaxWidth="500" MinWidth="500" MaxHeight="300" MinHeight="300"
+        xmlns:viewModel ="clr-namespace:UserSecurityAndEncryption.ViewModels">
+    <Window.DataContext>
+        <viewModel:DashBoardViewModel></viewModel:DashBoardViewModel>
+    </Window.DataContext>
     <Grid Margin="3,3">
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="*"/>
             <ColumnDefinition Width="*"/>
         </Grid.ColumnDefinitions>
-        <ListBox Grid.Column="0">
-            <ListBoxItem>ListBox Item #1</ListBoxItem>
-            <ListBoxItem>ListBox Item #2</ListBoxItem>
-            <ListBoxItem>ListBox Item #3</ListBoxItem>
+        <ListBox Grid.Column="0" ItemsSource="{Binding UsersObservableCollection }" ScrollViewer.HorizontalScrollBarVisibility="Disabled">
+            
         </ListBox>
         <StackPanel Grid.Column="1">
             <Grid>
