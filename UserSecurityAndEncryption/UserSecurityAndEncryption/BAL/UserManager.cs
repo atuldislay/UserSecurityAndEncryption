@@ -42,5 +42,15 @@ namespace UserSecurityAndEncryption.BAL
             userSecurityAndEncryptionDbEntities.SaveChanges();
             return String.Empty;
         }
+
+        public static void UpdateUser(string existingUserName, string userName, string passWord)
+        {
+         var userSecurityAndEncryptionDbEntities = new UserSecurityAndEncryptionDBEntities();
+            T_User userToUpdate = userSecurityAndEncryptionDbEntities.T_User.FirstOrDefault(user => user.UserName == existingUserName);
+            if (userToUpdate == null) return;
+            userToUpdate.UserName = userName;
+            userToUpdate.Password = Sha1Encryptor.GetSHA1HashData(passWord);
+            userSecurityAndEncryptionDbEntities.SaveChanges();
+        }
     }
 }

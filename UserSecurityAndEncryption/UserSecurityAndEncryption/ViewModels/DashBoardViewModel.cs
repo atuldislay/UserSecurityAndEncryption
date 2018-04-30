@@ -58,6 +58,18 @@ namespace UserSecurityAndEncryption.ViewModels
             }
         }
 
+
+        bool _isNotificationOpen = false;
+        public bool IsNotificationOpen
+        {
+            get { return _isNotificationOpen; }
+            set
+            {
+                _isNotificationOpen = value;
+                SetPropertyChanged("IsNotificationOpen");
+            }
+        }
+
         private T_User _selectedUser;
         public T_User SelectedUser
         {
@@ -66,6 +78,30 @@ namespace UserSecurityAndEncryption.ViewModels
             {
                 _selectedUser = value;
                 SetPropertyChanged("SelectedUser");
+                _isUpdateButtonVisible = _selectedUser != null;
+                SetPropertyChanged("IsUpdateButtonVisible");
+            }
+        }
+
+        private string _displayMessage;
+        public string DisplayMessage
+        {
+            get { return _displayMessage; }
+            set
+            {
+                _displayMessage = value;
+                SetPropertyChanged("DisplayMessage");
+            }
+        }
+
+        private bool _isUpdateButtonVisible;
+        public bool IsUpdateButtonVisible
+        {
+            get { return _isUpdateButtonVisible; }
+            set
+            {
+                _isUpdateButtonVisible = value;
+                SetPropertyChanged("IsUpdateButtonVisible");
             }
         }
 
@@ -81,11 +117,23 @@ namespace UserSecurityAndEncryption.ViewModels
             set;
         }
 
+        public ICommand UpdateButtonClicked
+        {
+            get;
+            set;
+        }
+
         public DashBoardViewModel()
         {
             UsersObservableCollection = new ObservableCollection<T_User>(UserManager.GetAllUsers());
             AddUserButtonClicked = new DelegateCommand<object>(parameter => AddUserClickCommand(), canExecute => !(String.IsNullOrEmpty(_userName) || String.IsNullOrEmpty(_passWord)));
-            DeleteButtonClicked = new DelegateCommand<object>(parameter => DeleteUserClickCommand(), canExecute => _selectedUser !=null && CheckUserExistBeforeDelete());
+            DeleteButtonClicked = new DelegateCommand<object>(parameter => DeleteUserClickCommand(), canExecute => _selectedUser != null && CheckUserExistBeforeDelete());
+            UpdateButtonClicked = new DelegateCommand<object>(parameter => UpdateButtonClickedCommand(), canExecute => _selectedUser != null);
+        }
+
+        private void UpdateButtonClickedCommand()
+        {
+            UserManager.UpdateUser(_selectedUser.UserName, _userName, _passWord);
         }
 
         private void DeleteUserClickCommand()

@@ -61,6 +61,10 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Page Include="Resources\ApplicationResource.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="Views\DashBoardView.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
@@ -72,6 +76,7 @@
     <Compile Include="BAL\SHA1Encryptor.cs" />
     <Compile Include="BAL\UserManager.cs" />
     <Compile Include="Commands\DelegateCommand.cs" />
+    <Compile Include="Converter\BooleanToVisbilityConverter.cs" />
     <Compile Include="EncryptionLayer\EncryptionManager.cs" />
     <Compile Include="EncryptionLayer\SHA1Encryptor.cs" />
     <Compile Include="DAL\T_User.cs">

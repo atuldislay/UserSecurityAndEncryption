@@ -4,17 +4,25 @@
         Icon="/Resources/icon.jpg"
         Title="Add/Update Users" Height="300" Width="500" MaxWidth="500" MinWidth="500" MaxHeight="300" MinHeight="300"
         xmlns:viewModel ="clr-namespace:UserSecurityAndEncryption.ViewModels" 
-        xmlns:i="http://schemas.microsoft.com/expression/2010/interactivity">
+        xmlns:i="http://schemas.microsoft.com/expression/2010/interactivity"
+        xmlns:converter="clr-namespace:UserSecurityAndEncryption.Converter">
     <Window.DataContext>
         <viewModel:DashBoardViewModel></viewModel:DashBoardViewModel>
     </Window.DataContext>
-    <Grid Margin="3,3">
+    <Window.Resources>
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="/Resources/ApplicationResource.xaml"/>
+                </ResourceDictionary.MergedDictionaries>
+                    <converter:BooleanToVisbilityConverter x:Key="BooleanToVisbilityConverter" />
+        </ResourceDictionary>
+        </Window.Resources>
+        <Grid Margin="3,3">
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="*"/>
             <ColumnDefinition Width="*"/>
         </Grid.ColumnDefinitions>
         <ListBox Grid.Column="0" x:Name="UserListBox" DisplayMemberPath="UserName" ItemsSource="{Binding UsersObservableCollection}" SelectedItem="{Binding SelectedUser, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" ScrollViewer.HorizontalScrollBarVisibility="Disabled">
-            
         </ListBox>
         <StackPanel Grid.Column="1">
             <Grid>
@@ -26,27 +34,46 @@
                     <RowDefinition Height="*"/>
                     <RowDefinition Height="*"/>
                     <RowDefinition Height="*"/>
+                    <RowDefinition Height="*"/>
                 </Grid.RowDefinitions>
                 <Label Name="LblUserName" Content="User Name" Grid.Column="0" Grid.Row="0"></Label>
                 <Label Name="LblPassword" Content="Password" Grid.Column="0" Grid.Row="1"></Label>
                 <TextBox Name="TxtUserName" Text ="{Binding UserName}"  Margin="6,6" Padding="3,3" Grid.Column="1" Grid.Row="0"></TextBox>
                 <TextBox Name="TxtPassword" Text="{Binding Password}" Margin="6,6" Padding="3,3" Grid.Column="1" Grid.Row="1" ></TextBox>
-                <Button Name="BtnAButton" Content="Add User" Margin="3,20,0,20" Grid.Column="0" Grid.Row="2">
+                <Button Name="BtnAButton" Content="Add User" Margin="3,20,0,20" Grid.Column="0" Grid.Row="2" Style="{StaticResource GreenButtonSkinTemplate}">
                     <i:Interaction.Triggers>
                         <i:EventTrigger EventName="Click">
                             <i:InvokeCommandAction Command="{Binding Path=AddUserButtonClicked, Mode=OneWay}"/>
                         </i:EventTrigger>
                     </i:Interaction.Triggers>
                 </Button>
-                <Button Name="DeleteButton" Content="Delete User" Margin="10,20,0,20" Grid.Column="1" Grid.Row="2">
+                <Button Name="DeleteButton" Content="Delete User" Margin="10,20,0,20" Grid.Column="1" Grid.Row="2" Style="{ StaticResource RedButtonSkinTemplate}">
                     <i:Interaction.Triggers>
                         <i:EventTrigger EventName="Click">
                             <i:InvokeCommandAction Command="{Binding Path=DeleteButtonClicked, Mode=OneWay}"/>
                         </i:EventTrigger>
                     </i:Interaction.Triggers>
+                    </Button>
+                <Button Name="UpdateButton" Content="Update Selected User" Margin="3,20,0,20" Grid.Column="0" Grid.Row="3"  Grid.ColumnSpan="2"
+                        Visibility= "{Binding Path =IsUpdateButtonVisible,Converter= {StaticResource BooleanToVisbilityConverter}}"
+                        Style="{StaticResource BlueButtonSkinTemplate}">
+                    <i:Interaction.Triggers>
+                        <i:EventTrigger EventName="Click">
+                            <i:InvokeCommandAction Command="{ Binding UpdateButtonClicked}"></i:InvokeCommandAction>
+                        </i:EventTrigger>
+                    </i:Interaction.Triggers>
                 </Button>
             </Grid>
-
+            <Popup DataContext="{Binding RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type Window}}, Path=DataContext}" VerticalOffset="-8"
+          Placement="Top" IsOpen="{Binding IsNotificationOpen}" AllowsTransparency="True" PopupAnimation="Slide" StaysOpen="False">
+                <Border BorderBrush="Black" BorderThickness="1" Background="White">
+                    <Grid Height="150" Width="500">
+                        <Viewbox HorizontalAlignment="Left">
+                            <Label Content="{Binding DisplayMessage }"/>
+                        </Viewbox>
+                    </Grid>
+                </Border>
+            </Popup>
         </StackPanel>
     </Grid>
 </Window>
