@@ -68,7 +68,9 @@
       <DependentUpon>App.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="BAL\SHA1Encryptor.cs" />
     <Compile Include="BAL\UserManager.cs" />
+    <Compile Include="Commands\DelegateCommand.cs" />
     <Compile Include="EncryptionLayer\EncryptionManager.cs" />
     <Compile Include="EncryptionLayer\SHA1Encryptor.cs" />
     <Compile Include="DAL\T_User.cs">
