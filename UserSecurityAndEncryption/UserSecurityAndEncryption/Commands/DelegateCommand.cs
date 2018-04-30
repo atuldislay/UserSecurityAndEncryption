@@ -1,39 +1,40 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Input;
 
 namespace UserSecurityAndEncryption.Commands
 {
-    public class DelegateCommand : ICommand // Step 1 :- Create command
+    public class DelegateCommand<T> : ICommand // Step 1 :- Create command
     {
 
-        private Action WhattoExecute;
-        private Func<bool> WhentoExecute;
+        private readonly Action<T>  _whattoExecute;
+        private readonly Predicate<T> _whentoExecute;
 
-        public DelegateCommand(Action What, Func<bool> When)
+        public DelegateCommand(Action<T> execute)
+            : this(execute, null)
         {
-            WhattoExecute = What;
-            WhentoExecute = When;
         }
 
+        public DelegateCommand(Action<T> execute, Predicate<T> canExecute)
+        {
+            if (execute == null)
+                throw new ArgumentNullException("execute");
+            _whattoExecute = execute;
+            _whentoExecute = canExecute;
+        }
         public bool CanExecute(object parameter) // When he should execute
         {
-
-            return WhentoExecute();
-
+            return _whentoExecute == null || _whentoExecute((T)parameter);
         }
-
 
         public void Execute(object parameter) // What to execute
         {
-            WhattoExecute();
+            _whattoExecute((T)parameter);
         }
 
-    
-
-public event EventHandler CanExecuteChanged;
-} 
+        public event EventHandler CanExecuteChanged;
+        //{
+        //    add { CommandManager.RequerySuggested += value; }
+        //    remove { CommandManager.RequerySuggested -= value; }
+        //}
+    }
 }

@@ -15,7 +15,7 @@ namespace UserSecurityAndEncryption.BAL
         /// </summary>
         /// <param name="data">input text you will enterd to encrypt it</param>
         /// <returns>return the encrypted text as hexadecimal string</returns>
-        private string GetSHA1HashData(string data)
+        public static string GetSHA1HashData(string data)
         {
             //create new instance of SHA1
             SHA1 sha1 = SHA1.Create();
@@ -43,7 +43,7 @@ namespace UserSecurityAndEncryption.BAL
         /// <param name="inputData">input text you will enterd to encrypt it</param>
         /// <param name="storedHashData">the encrypted text stored on file or database ... etc</param>
         /// <returns>true or false depending on input validation</returns>
-        private bool ValidateSHA1HashData(string inputData, string storedHashData)
+        public static bool ValidateSHA1HashData(string inputData, string storedHashData)
         {
             //hash input text and save it string variable
             string getHashInputData = GetSHA1HashData(inputData);

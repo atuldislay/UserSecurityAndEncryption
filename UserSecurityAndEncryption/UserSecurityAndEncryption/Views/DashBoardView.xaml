@@ -3,7 +3,8 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         Icon="/Resources/icon.jpg"
         Title="Add/Update Users" Height="300" Width="500" MaxWidth="500" MinWidth="500" MaxHeight="300" MinHeight="300"
-        xmlns:viewModel ="clr-namespace:UserSecurityAndEncryption.ViewModels">
+        xmlns:viewModel ="clr-namespace:UserSecurityAndEncryption.ViewModels" 
+        xmlns:i="http://schemas.microsoft.com/expression/2010/interactivity">
     <Window.DataContext>
         <viewModel:DashBoardViewModel></viewModel:DashBoardViewModel>
     </Window.DataContext>
@@ -12,7 +13,7 @@
             <ColumnDefinition Width="*"/>
             <ColumnDefinition Width="*"/>
         </Grid.ColumnDefinitions>
-        <ListBox Grid.Column="0" ItemsSource="{Binding UsersObservableCollection }" ScrollViewer.HorizontalScrollBarVisibility="Disabled">
+        <ListBox Grid.Column="0" x:Name="UserListBox" DisplayMemberPath="UserName" ItemsSource="{Binding UsersObservableCollection}" SelectedItem="{Binding SelectedUser, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" ScrollViewer.HorizontalScrollBarVisibility="Disabled">
             
         </ListBox>
         <StackPanel Grid.Column="1">
@@ -28,10 +29,22 @@
                 </Grid.RowDefinitions>
                 <Label Name="LblUserName" Content="User Name" Grid.Column="0" Grid.Row="0"></Label>
                 <Label Name="LblPassword" Content="Password" Grid.Column="0" Grid.Row="1"></Label>
-                <TextBox Name="TxtUserName" Margin="6,6" Padding="3,3" Grid.Column="1" Grid.Row="0"></TextBox>
-                <TextBox Name="TxtPassword" Margin="6,6" Padding="3,3" Grid.Column="1" Grid.Row="1"></TextBox>
-                <Button Name="BtnAButton" Content="Add User" Margin="3,20,0,20" Grid.Column="0" Grid.Row="2"></Button>
-                <Button Name="DeleteButton" Content="Delete User" Margin="10,20,0,20" Grid.Column="1" Grid.Row="2"></Button>
+                <TextBox Name="TxtUserName" Text ="{Binding UserName}"  Margin="6,6" Padding="3,3" Grid.Column="1" Grid.Row="0"></TextBox>
+                <TextBox Name="TxtPassword" Text="{Binding Password}" Margin="6,6" Padding="3,3" Grid.Column="1" Grid.Row="1" ></TextBox>
+                <Button Name="BtnAButton" Content="Add User" Margin="3,20,0,20" Grid.Column="0" Grid.Row="2">
+                    <i:Interaction.Triggers>
+                        <i:EventTrigger EventName="Click">
+                            <i:InvokeCommandAction Command="{Binding Path=AddUserButtonClicked, Mode=OneWay}"/>
+                        </i:EventTrigger>
+                    </i:Interaction.Triggers>
+                </Button>
+                <Button Name="DeleteButton" Content="Delete User" Margin="10,20,0,20" Grid.Column="1" Grid.Row="2">
+                    <i:Interaction.Triggers>
+                        <i:EventTrigger EventName="Click">
+                            <i:InvokeCommandAction Command="{Binding Path=DeleteButtonClicked, Mode=OneWay}"/>
+                        </i:EventTrigger>
+                    </i:Interaction.Triggers>
+                </Button>
             </Grid>
 
         </StackPanel>
