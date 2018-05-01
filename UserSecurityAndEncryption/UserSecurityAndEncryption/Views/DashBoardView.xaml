@@ -13,18 +13,20 @@
         <ResourceDictionary>
             <ResourceDictionary.MergedDictionaries>
                 <ResourceDictionary Source="/Resources/ApplicationResource.xaml"/>
-                </ResourceDictionary.MergedDictionaries>
-                    <converter:BooleanToVisbilityConverter x:Key="BooleanToVisbilityConverter" />
+            </ResourceDictionary.MergedDictionaries>
+            <converter:BooleanToVisbilityConverter x:Key="BooleanToVisbilityConverter" />
         </ResourceDictionary>
-        </Window.Resources>
-        <Grid Margin="3,3">
+    </Window.Resources>
+    <Grid Margin="3,3">
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="*"/>
-            <ColumnDefinition Width="*"/>
+            <ColumnDefinition Width=".1*"/>
+            <ColumnDefinition Width="2*"/>
         </Grid.ColumnDefinitions>
         <ListBox Grid.Column="0" x:Name="UserListBox" DisplayMemberPath="UserName" ItemsSource="{Binding UsersObservableCollection}" SelectedItem="{Binding SelectedUser, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" ScrollViewer.HorizontalScrollBarVisibility="Disabled">
         </ListBox>
-        <StackPanel Grid.Column="1">
+        <GridSplitter Grid.Column="1" VerticalAlignment="Stretch" Width="8" Background="Gray" HorizontalAlignment="Left"></GridSplitter>
+        <StackPanel Grid.Column="2">
             <Grid>
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="*"/>
@@ -53,7 +55,7 @@
                             <i:InvokeCommandAction Command="{Binding Path=DeleteButtonClicked, Mode=OneWay}"/>
                         </i:EventTrigger>
                     </i:Interaction.Triggers>
-                    </Button>
+                </Button>
                 <Button Name="UpdateButton" Content="Update Selected User" Margin="3,20,0,20" Grid.Column="0" Grid.Row="3"  Grid.ColumnSpan="2"
                         Visibility= "{Binding Path =IsUpdateButtonVisible,Converter= {StaticResource BooleanToVisbilityConverter}}"
                         Style="{StaticResource BlueButtonSkinTemplate}">
